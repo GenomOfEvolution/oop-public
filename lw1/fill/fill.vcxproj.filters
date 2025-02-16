@@ -34,13 +34,16 @@
     <Text Include="test-data\input3.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
-    <Text Include="input4.txt">
+    <Text Include="test-data\input0.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
-    <Text Include="input0.txt">
+    <Text Include="test-data\input4.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
-    <Text Include="input5.txt">
+    <Text Include="test-data\input5.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="input6.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>
