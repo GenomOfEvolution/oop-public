@@ -18,25 +18,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="replace.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="test-data\DefNumbers.txt" />
-    <Text Include="test-data\Empty.txt" />
-    <Text Include="test-data\inp1.txt" />
-    <Text Include="test-data\inp2.txt" />
-    <Text Include="test-data\mamaToPapa.txt" />
-    <Text Include="test-data\output.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="test.bat" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{65735b89-7289-4a2a-908b-ddb24007eb76}</ProjectGuid>
-    <RootNamespace>replace</RootNamespace>
+    <ProjectGuid>{296307ac-1d1f-4d63-a629-bc72a61fd17f}</ProjectGuid>
+    <RootNamespace>fill</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -144,6 +130,20 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="fill.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="input0.txt" />
+    <Text Include="input4.txt" />
+    <Text Include="input5.txt" />
+    <Text Include="test-data\input1.txt" />
+    <Text Include="test-data\input2.txt" />
+    <Text Include="test-data\input3.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

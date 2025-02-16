@@ -1,8 +1,12 @@
+// Тесты на неправильное кол-во парам. 
+// Можно ли открыть файлы
+// 16 test - error
+
+
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <optional>
-#include <algorithm>
 
 struct Args
 {
@@ -37,6 +41,9 @@ std::string ReplaceString(const std::string& stringToReplace, const std::string&
     return result;
 }
 
+
+// Переименовать
+// ReplaceString - заменить на потоки
 bool ReplaceStringsInFile(const Args& args)
 {
     std::istream* inputStream = &std::cin;
