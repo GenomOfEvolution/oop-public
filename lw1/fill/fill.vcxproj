@@ -90,7 +90,7 @@
     </Link>
     <PostBuildEvent>
       <Command>test.bat "$(TargetPath)"</Command>
-      <Message>Running tests</Message>
+      <Message>Running Tests</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -110,8 +110,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>test.bat "$(TargetPath)"</Command>
-      <Message>Running tests</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -128,7 +130,7 @@
     </Link>
     <PostBuildEvent>
       <Command>test.bat "$(TargetPath)"</Command>
-      <Message>Running tests</Message>
+      <Message>Running Tests</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -148,8 +150,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>test.bat "$(TargetPath)"</Command>
-      <Message>Running tests</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -159,13 +163,13 @@
     <None Include="test.bat" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="input6.txt" />
     <Text Include="test-data\input0.txt" />
     <Text Include="test-data\input1.txt" />
     <Text Include="test-data\input2.txt" />
     <Text Include="test-data\input3.txt" />
     <Text Include="test-data\input4.txt" />
     <Text Include="test-data\input5.txt" />
+    <Text Include="test-data\input6.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

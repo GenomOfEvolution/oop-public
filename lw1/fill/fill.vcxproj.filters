@@ -43,7 +43,7 @@
     <Text Include="test-data\input5.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
-    <Text Include="input6.txt">
+    <Text Include="test-data\input6.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>

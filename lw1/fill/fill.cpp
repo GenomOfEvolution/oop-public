@@ -5,6 +5,7 @@
 #include <queue>
 #include <utility>
 #include <string>
+#include <algorithm>
 
 const size_t MAX_FIELD_SIZE = 100;
 const char WALL_SYMBOL = '#';
@@ -183,7 +184,7 @@ bool Fill(const Args& args)
 	}
 	catch (const std::runtime_error& e)
 	{
-		std::cout << e.what() << "\n";
+		std::cout << e.what();
 		return EXIT_FAILURE;
 	}
 	
