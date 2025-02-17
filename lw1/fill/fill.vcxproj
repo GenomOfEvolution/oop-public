@@ -170,6 +170,7 @@
     <Text Include="test-data\input4.txt" />
     <Text Include="test-data\input5.txt" />
     <Text Include="test-data\input6.txt" />
+    <Text Include="test-data\input7.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

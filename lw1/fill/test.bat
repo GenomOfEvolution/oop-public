@@ -48,6 +48,12 @@ if %ERRORLEVEL% EQU 1 goto err
 fc answer.txt  test-data\output5.txt || goto err
 echo Test 8 passed!
 
+::Игонрирование символов заливки за пределеами 100 на 100 - пустое поле
+%PROGRAM% test-data\input7.txt answer.txt
+if %ERRORLEVEL% EQU 1 goto err
+fc answer.txt  test-data\output0.txt || goto err
+echo Test 9 passed!
+
 echo All tests passed
 exit /B 0
 
