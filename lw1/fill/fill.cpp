@@ -28,7 +28,7 @@ void ReadField(std::istream& input, Field& field, FillQueue& fillQueue)
 	std::for_each(field.begin(), field.end(), [](auto& row) { row.fill(EMPTY_CELL_SYMBOL); });
 	int y = 0;
 	std::string line;
-	while (std::getline(input, line))
+	while (std::getline(input, line) && y < MAX_FIELD_SIZE)
 	{
 		size_t rightBorder = line.length() > MAX_FIELD_SIZE ? MAX_FIELD_SIZE : line.length();
 		for (int x = 0; x < rightBorder; x++)
