@@ -1,4 +1,4 @@
-// Тесты на неправильное кол-во парам. 
+// Тесты на неправильное кол-во парам. done
 // Можно ли открыть файлы
 // 16 test - error
 
@@ -42,42 +42,37 @@ std::string ReplaceString(const std::string& stringToReplace, const std::string&
 }
 
 
-// Переименовать
-// ReplaceString - заменить на потоки
-bool ReplaceStringsInFile(const Args& args)
+// Переименовать done
+// ReplaceString - заменить на потоки done
+bool ReplaceStrings(const Args& args)
 {
-    std::istream* inputStream = &std::cin;
-    std::ostream* outputStream = &std::cout;
-
     std::ifstream fileInputStream;
     std::ofstream fileOutputStream;
 
     if (!args.useStdin)
     {
         fileInputStream.open(args.inputFileName);
-        if (!fileInputStream.is_open())
+        if (!fileInputStream)
         {
             std::cout << "ERROR\n";
             return false;
         }
-        inputStream = &fileInputStream;
-    }
 
-    if (!args.useStdin)
-    {
         fileOutputStream.open(args.outputFileName);
-        if (!fileOutputStream.is_open())
+        if (!fileOutputStream)
         {
             std::cout << "ERROR" << std::endl;
             return false;
         }
-        outputStream = &fileOutputStream;
     }
 
+    std::istream& inputStream = args.useStdin ? std::cin : fileInputStream;
+    std::ostream& outputStream = args.useStdin ? std::cout : fileOutputStream;
+
     std::string line;
-    while (std::getline(*inputStream, line))
+    while (std::getline(inputStream, line))
     {
-        *outputStream << ReplaceString(line, args.searchString, args.replaceString) << '\n';
+        outputStream << ReplaceString(line, args.searchString, args.replaceString) << '\n';
     }
 
     return true;
@@ -142,7 +137,7 @@ int main(int argc, char* argv[])
         return (argc == 1) ? 0 : 1;
     }
 
-    bool exitResult = ReplaceStringsInFile(*args);
+    bool exitResult = ReplaceStrings(*args);
 
     return (exitResult) ? 0 : ((argc == 1) ? 0 : 1);
 }
