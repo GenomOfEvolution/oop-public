@@ -23,7 +23,7 @@ using FillQueue = std::queue<std::pair<int, int>>;
 
 struct Args
 {
-    bool IsStdin = false;
+    bool isStdin = false;
     std::string inputFileName;
     std::string outputFileName;
 };
@@ -146,7 +146,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 
     if (argc == 1)
     {
-        result.IsStdin = true;
+        result.isStdin = true;
         return result;
     }
 
@@ -173,10 +173,10 @@ bool Fill(const Args& args)
     std::ifstream fileInput;
     std::ofstream fileOutput;
 
-    std::istream& input = args.IsStdin ? std::cin : fileInput;
-    std::ostream& output = args.IsStdin ? std::cout : fileOutput;
+    std::istream& input = args.isStdin ? std::cin : fileInput;
+    std::ostream& output = args.isStdin ? std::cout : fileOutput;
 
-    if (!args.IsStdin)
+    if (!args.isStdin)
     {
         fileInput.open(args.inputFileName);
         if (!fileInput)
