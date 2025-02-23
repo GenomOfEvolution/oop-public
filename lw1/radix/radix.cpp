@@ -1,169 +1,152 @@
-﻿#include "radix.h"
-
-// Тесты на INTMAX+1, INTMIN-1, проверка на переполнение
+﻿// Тесты на INTMAX+1, INTMIN-1, проверка на переполнение
 // Переписать на исключения
 
-std::optional<Args> ParseArgs(int argc, char* argv[])
+#include <iostream>
+#include <string>
+#include <stdexcept>
+#include <climits>
+
+const int FIRST_CHAR_WEIGHT = 10;
+const int DEF_ZERO_CHAR = 48;
+const int DEF_A_CHAR = 65;
+const char MINUS_CHAR = '-';
+
+struct Args
 {
-	if (argc != 4)
-	{
-		std::cout << "Wrong parametrs! \n" <<
-			"Use instead: radix.exe <source notation> <destination notation> <value>";
-		return std::nullopt;
-	}
+    int sourceNotation = 10;
+    int destNotation = 10;
+    std::string valueString;
+};
 
-	Args result;
-	result.sourseNotation = std::stoi(argv[1]);
-	result.destNotation = std::stoi(argv[2]);
-	result.valueString = argv[3];
+Args ParseArgs(int argc, char* argv[])
+{
+    if (argc != 4)
+    {
+        throw std::runtime_error("Wrong parameters! Use instead: radix.exe <source notation> <destination notation> <value>");
+    }
 
-	return result;
+    Args result;
+    result.sourceNotation = std::stoi(argv[1]);
+    result.destNotation = std::stoi(argv[2]);
+    result.valueString = argv[3];
+
+    return result;
 }
+
 
 // убрать optional, выбрасывать исключение
 // избавиться от ALPHABET и find
 int TransformCharToInt(char ch)
 {
-	if ((ch >= '0') && (ch <= '9'))
-	{
-		return ch - DEF_ZERO_CHAR;
-	}
-	
-	if ((ch >= 'A') && (ch <= 'Z'))
-	{
-		return *std::find(ALPHABET.begin(), ALPHABET.end(), ch) - DEF_A_CHAR + FIRST_CHAR_WEIGHT;
-	}
+    if ((ch >= '0') && (ch <= '9'))
+    {
+        return ch - DEF_ZERO_CHAR;
+    }
 
-	throw std::runtime_error("Unable to transform char: " + ch);
-}
+    if ((ch >= 'A') && (ch <= 'Z'))
+    {
+        return ch - DEF_A_CHAR + FIRST_CHAR_WEIGHT;
+    }
 
-int StringToInt(const std::string& str, int radix, bool& wasError)
-{	
-	if ((radix > 36) || (radix < 2))
-	{
-		wasError = true;
-		std::cout << "Radix should be between 2 and 36!\n";
-		return 0;
-	}
-
-	bool isNegative = false;
-	std::string tempStr = str;
-
-	// не создавать строку а с 1 символа, если минус
-	isNegative = (str[0] == MINUS_CHAR);
-
-	// объеденить в 1 цикл
-	for (int i = (isNegative ? 1 : 0); i < str.length(); i++)
-	{
-		int charAsInt = TransformCharToInt(str[i]);
-
-		if ((charAsInt > radix) || (charAsInt < 0))
-		{
-			wasError = true;
-			std::cout << i << " is out of radix " << radix << "\n";
-			return 0;
-		}
-	}
-
-	// сделать в int
-	int result = 0;
-
-	for (auto i : tempStr)
-	{
-		int charNumber = TransformCharToInt(i);
-
-		if (result > (INT_MAX - (charNumber)) / radix)
-		{
-			std::cout << "Too big number in dec system!\n";
-			wasError = true;
-			return 0;
-		}
-		result = result * radix + (charNumber);
-	}
-
-	if (isNegative)
-	{
-		result *= -1;
-	}
-	wasError = false;
-
-	return result;
+    throw std::runtime_error("Unable to transform char: " + std::string(1, ch));
 }
 
 void CheckRadix(int radix)
 {
-	if ((radix > 36) || (radix < 2))
-	{
-		throw std::runtime_error("Radix should be between 2 and 36!\n");
-	}
+    if ((radix > 36) || (radix < 2))
+    {
+        throw std::runtime_error("Radix should be between 2 and 36!");
+    }
 }
 
-std::string ConvertNumberToNotation(int num)
+// Убрать wasError, выбрасывать исключение
+int StringToInt(const std::string& str, int radix)
 {
-	return ((num >= 0) && (num <= 9)) ? std::to_string(num) : std::string { ALPHABET[num - FIRST_CHAR_WEIGHT] };
+    CheckRadix(radix);
+
+    bool isNegative = (str[0] == MINUS_CHAR);
+    int result = 0;
+
+    for (size_t i = (isNegative ? 1 : 0); i < str.length(); i++)
+    {
+        int charAsInt = TransformCharToInt(str[i]);
+
+        if ((charAsInt >= radix) || (charAsInt < 0))
+        {
+            throw std::runtime_error("Character is out of radix " + std::to_string(radix));
+        }
+
+        if (result > (INT_MAX - charAsInt) / radix)
+        {
+            throw std::runtime_error("Too big number in decimal system!");
+        }
+
+        result = result * radix + charAsInt;
+    }
+
+    return isNegative ? -result : result;
+}
+
+char ConvertNumberToChar(int num)
+{
+    if (num >= 0 && num <= 9)
+    {
+        return static_cast<char>(DEF_ZERO_CHAR + num);
+    }
+    else if (num >= 10 && num <= 35)
+    {
+        return static_cast<char>(DEF_A_CHAR + (num - FIRST_CHAR_WEIGHT));
+    }
+    throw std::runtime_error("Number is out of range for conversion to char: " + std::to_string(num));
 }
 
 std::string IntToString(int n, int radix)
 {
-	CheckRadix(radix);
+    CheckRadix(radix);
 
-	bool isNegative = false;
-	if (n < 0)
-	{
-		isNegative = true;
-		n *= -1;
-	}
+    bool isNegative = false;
+    if (n < 0)
+    {
+        isNegative = true;
+        n *= -1;
+    }
 
-	std::string result;
-	int remainder = 0;
-	while (n >= radix)
-	{
-		remainder = n % radix;
-		result.insert(0, ConvertNumberToNotation(remainder));
-		n /= radix;
-	}
+    std::string result;
+    int remainder = 0;
+    while (n >= radix)
+    {
+        remainder = n % radix;
+        result.insert(0, 1, ConvertNumberToChar(remainder));
+        n /= radix;
+    }
 
-	remainder = n % radix;
-	result.insert(0, ConvertNumberToNotation(remainder));
+    remainder = n % radix;
+    result.insert(0, 1, ConvertNumberToChar(remainder));
 
-	if (isNegative)
-	{
-		result.insert(0, std::string {MINUS_CHAR});
-	}
+    if (isNegative)
+    {
+        result.insert(0, 1, MINUS_CHAR);
+    }
 
-	return result;
+    return result;
 }
 
 int main(int argc, char* argv[])
 {
-	// сразу дать значение
-	std::optional<Args> tempArgs;
-	tempArgs = ParseArgs(argc, argv);
+    try
+    {
+        Args args = ParseArgs(argc, argv);
 
-	// .hasValue
-	if (tempArgs == std::nullopt)
-	{
-		return EXIT_FAILURE;
-	}
+        int inDecNumber = StringToInt(args.valueString, args.sourceNotation);
+        std::string result = IntToString(inDecNumber, args.destNotation);
 
-	// разыменовать и передать
-	Args args = *tempArgs;
+        std::cout << result << "\n";
+    }
+    catch (const std::runtime_error& e)
+    {
+        std::cout << "Error: " << e.what() << "\n";
+        return EXIT_FAILURE;
+    }
 
-	bool wasError = false;
-	int inDecNumber = StringToInt(args.valueString, args.sourseNotation, wasError);
-
-	if (wasError)
-	{
-		return EXIT_FAILURE;
-	}
-
-	std::string result = IntToString(inDecNumber, args.destNotation, wasError);
-	
-	if (wasError)
-	{
-		return EXIT_FAILURE;
-	}
-	std::cout << result << "\n";
-
-	return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }
