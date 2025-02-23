@@ -30,7 +30,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
     result.outputFileName = argv[3];
 
     int key = std::stoi(argv[4]);
-    if (key > 255 || key < 0)
+    if (key > UINT8_MAX || key < 0)
     {
         std::cout << "Key must be between 0 and 255\n";
         return std::nullopt;
@@ -40,40 +40,29 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
     return result;
 }
 
-// 76543210 -> 51076432
-char CryptByte(char byte, uint8_t key)
+char CryptByte(const char byte, uint8_t key)
 {
-    byte ^= key;
-    char result = 0;
+    uint8_t xorByte = byte ^ key;
+    uint8_t result = 0;
 
-    result |= ((byte >> 7) & 0x01) << 5;
-    result |= ((byte >> 6) & 0x01) << 1;
-    result |= ((byte >> 5) & 0x01) << 0;
-    result |= ((byte >> 4) & 0x01) << 7;
-    result |= ((byte >> 3) & 0x01) << 6;
-    result |= ((byte >> 2) & 0x01) << 4;
-    result |= ((byte >> 1) & 0x01) << 3;
-    result |= ((byte >> 0) & 0x01) << 2;
+    result |= (xorByte << 2) & 0b00011100;
+    result |= (xorByte >> 5) & 0b00000011;
+    result |= (xorByte >> 2) & 0b00100000;
+    result |= (xorByte << 3) & 0b11000000;
 
     return result;
 }
 
-char DecryptByte(char byte, uint8_t key)
+char DecryptByte(const char byte, uint8_t key)
 {
-    char result = 0;
+    uint8_t result = 0;
 
-    result |= ((byte >> 5) & 0x01) << 7;
-    result |= ((byte >> 1) & 0x01) << 6;
-    result |= ((byte >> 0) & 0x01) << 5;
-    result |= ((byte >> 7) & 0x01) << 4;
-    result |= ((byte >> 6) & 0x01) << 3;
-    result |= ((byte >> 4) & 0x01) << 2;
-    result |= ((byte >> 3) & 0x01) << 1;
-    result |= ((byte >> 2) & 0x01) << 0;
+    result |= (byte >> 2) & 0b00000111;
+    result |= (byte << 5) & 0b01100000;
+    result |= (byte << 2) & 0b10000000;
+    result |= (byte >> 3) & 0b00011000;
 
-    result ^= key;
-
-    return result;
+    return result ^ key;
 }
 
 bool CryptDecrypt(const Args& args)

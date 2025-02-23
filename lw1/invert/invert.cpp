@@ -136,20 +136,19 @@ bool Invert(const Args& args)
         }
     }
 
-    Matrix3x3d matrix;
-    Matrix3x3d inverted;
+
     try
     {
-        matrix = ReadMatrix(input);
-        inverted = InvertMatrix(matrix);
+        Matrix3x3d  matrix = ReadMatrix(input);
+        Matrix3x3d inverted = InvertMatrix(matrix);
+       
+        PrintMatrix(output, inverted);
     }
     catch (const std::runtime_error& e)
     {
         std::cout << e.what() << std::endl;
         return EXIT_FAILURE;
     }
-
-    PrintMatrix(output, inverted);
 
     return EXIT_SUCCESS;
 }

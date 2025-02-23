@@ -1,5 +1,8 @@
 ﻿#include "radix.h"
 
+// Тесты на INTMAX+1, INTMIN-1, проверка на переполнение
+// Переписать на исключения
+
 std::optional<Args> ParseArgs(int argc, char* argv[])
 {
 	if (argc != 4)
@@ -17,7 +20,9 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	return result;
 }
 
-std::optional<int> TransformCharToInt(char ch)
+// убрать optional, выбрасывать исключение
+// избавиться от ALPHABET и find
+int TransformCharToInt(char ch)
 {
 	if ((ch >= '0') && (ch <= '9'))
 	{
@@ -29,7 +34,7 @@ std::optional<int> TransformCharToInt(char ch)
 		return *std::find(ALPHABET.begin(), ALPHABET.end(), ch) - DEF_A_CHAR + FIRST_CHAR_WEIGHT;
 	}
 
-	return std::nullopt;
+	throw std::runtime_error("Unable to transform char: " + ch);
 }
 
 int StringToInt(const std::string& str, int radix, bool& wasError)
@@ -44,18 +49,15 @@ int StringToInt(const std::string& str, int radix, bool& wasError)
 	bool isNegative = false;
 	std::string tempStr = str;
 
-	if (str[0] == MINUS_CHAR)
-	{
-		isNegative = true;
-		tempStr.erase(0, 1);
-	}
+	// не создавать строку а с 1 символа, если минус
+	isNegative = (str[0] == MINUS_CHAR);
 
-	for (auto i : tempStr)
+	// объеденить в 1 цикл
+	for (int i = (isNegative ? 1 : 0); i < str.length(); i++)
 	{
-		std::optional<int> charAsInt = 0;
-		charAsInt = TransformCharToInt(i);
+		int charAsInt = TransformCharToInt(str[i]);
 
-		if ((charAsInt == std::nullopt) || (*charAsInt > radix) || (*charAsInt < 0) )
+		if ((charAsInt > radix) || (charAsInt < 0))
 		{
 			wasError = true;
 			std::cout << i << " is out of radix " << radix << "\n";
@@ -63,19 +65,20 @@ int StringToInt(const std::string& str, int radix, bool& wasError)
 		}
 	}
 
-	double result = 0;
+	// сделать в int
+	int result = 0;
 
 	for (auto i : tempStr)
 	{
-		std::optional<int> charNumber = TransformCharToInt(i);
+		int charNumber = TransformCharToInt(i);
 
-		if (result > (INT_MAX - (*charNumber)) / radix)
+		if (result > (INT_MAX - (charNumber)) / radix)
 		{
 			std::cout << "Too big number in dec system!\n";
 			wasError = true;
 			return 0;
 		}
-		result = result * radix + (*charNumber);
+		result = result * radix + (charNumber);
 	}
 
 	if (isNegative)
@@ -84,7 +87,15 @@ int StringToInt(const std::string& str, int radix, bool& wasError)
 	}
 	wasError = false;
 
-	return int(result);
+	return result;
+}
+
+void CheckRadix(int radix)
+{
+	if ((radix > 36) || (radix < 2))
+	{
+		throw std::runtime_error("Radix should be between 2 and 36!\n");
+	}
 }
 
 std::string ConvertNumberToNotation(int num)
@@ -92,14 +103,9 @@ std::string ConvertNumberToNotation(int num)
 	return ((num >= 0) && (num <= 9)) ? std::to_string(num) : std::string { ALPHABET[num - FIRST_CHAR_WEIGHT] };
 }
 
-std::string IntToString(int n, int radix, bool& wasError)
+std::string IntToString(int n, int radix)
 {
-	if ((radix > 36) || (radix < 2))
-	{
-		wasError = true;
-		std::cout << "Radix should be between 2 and 36!\n";
-		return std::string {};
-	}
+	CheckRadix(radix);
 
 	bool isNegative = false;
 	if (n < 0)
@@ -125,21 +131,22 @@ std::string IntToString(int n, int radix, bool& wasError)
 		result.insert(0, std::string {MINUS_CHAR});
 	}
 
-	wasError = false;
-
 	return result;
 }
 
 int main(int argc, char* argv[])
 {
+	// сразу дать значение
 	std::optional<Args> tempArgs;
 	tempArgs = ParseArgs(argc, argv);
 
+	// .hasValue
 	if (tempArgs == std::nullopt)
 	{
 		return EXIT_FAILURE;
 	}
 
+	// разыменовать и передать
 	Args args = *tempArgs;
 
 	bool wasError = false;
