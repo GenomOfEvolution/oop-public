@@ -1,4 +1,6 @@
 #include "PrimesGenerator.h"
+#include <cmath>
+#include <vector>
 
 std::set<int> GeneratePrimeNumbersSet(int upperBound)
 {
@@ -8,24 +10,26 @@ std::set<int> GeneratePrimeNumbersSet(int upperBound)
         return primeNumbers;
     }
 
-    std::vector<bool> allNumbers(upperBound + 1, true);
-    allNumbers[0] = allNumbers[1] = false;
+    std::vector<bool> allNumbers(upperBound + 1, false);
 
+    // игонорировать все четные числа сразу
     size_t sqrtBound = static_cast<size_t>(std::sqrt(upperBound));
-    for (size_t i = 2; i <= sqrtBound; ++i)
+    for (size_t i = 3; i <= sqrtBound; i += 2)
     {
-        if (allNumbers[i])
+        if (!allNumbers[i])
         {
-            for (size_t j = i * i; j <= static_cast<size_t>(upperBound); j += i)
+            for (size_t j = i * i; j <= static_cast<size_t>(upperBound); j += i * 2)
             {
-                allNumbers[j] = false;
+                allNumbers[j] = true;
             }
         }
     }
 
-    for (int i = 2; i <= upperBound; ++i)
+    primeNumbers.insert(2);
+
+    for (int i = 3; i <= upperBound; i += 2)
     {
-        if (allNumbers[i])
+        if (!allNumbers[i])
         {
             primeNumbers.insert(i);
         }
