@@ -39,10 +39,15 @@ if %ERRORLEVEL% EQU 1 echo Test 6 passed! || goto err
 if %ERRORLEVEL% EQU 0 goto err
 echo Test 7 passed!
 
-::Переполнение INT_MIN + 1
-%POGRAM% 10 2 -2147483648
+::Переполнение INT_MIN - 1
+%POGRAM% 10 2 -2147483649
 if %ERRORLEVEL% EQU 0 goto err
 echo Test 8 passed!
+
+::INT_MIN
+%POGRAM% 10 2 -2147483648
+if %ERRORLEVEL% EQU 1 goto err
+echo Test 9 passed!
 
 
 echo All tests passed

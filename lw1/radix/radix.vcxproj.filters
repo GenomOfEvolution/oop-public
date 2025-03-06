@@ -23,11 +23,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="radix.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="test-data\From_16_To_10_1F.txt">
       <Filter>Файлы ресурсов\test-data</Filter>
     </Text>

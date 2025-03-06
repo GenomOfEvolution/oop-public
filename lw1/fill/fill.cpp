@@ -49,14 +49,14 @@ void ReadField(std::istream& input, Field& field, FillQueue& fillQueue)
             if (cellTypeMap.find(symbol) != cellTypeMap.end())
             {
                 field[y][x] = cellTypeMap[symbol];
-                if (symbol == 'O')
+                if (field[y][x] == CellType::FILL_START)
                 {
                     fillQueue.push({ y, x });
                 }
             }
             else
             {
-                throw std::runtime_error("ERROR");
+                throw std::runtime_error("ERROR"); // дописать пояснение
             }
         }
         y++;
@@ -65,7 +65,9 @@ void ReadField(std::istream& input, Field& field, FillQueue& fillQueue)
 
 bool CanSpreadFill(int y, int x, const Field& field)
 {
-    return (y >= 0) && (y < MAX_FIELD_SIZE) && (x >= 0) && (x < MAX_FIELD_SIZE) && (field[y][x] == CellType::EMPTY);
+    return (y >= 0) && (y < MAX_FIELD_SIZE)
+        && (x >= 0) && (x < MAX_FIELD_SIZE) 
+        && (field[y][x] == CellType::EMPTY);
 }
 
 void FillField(Field& field, FillQueue& fillQueue)

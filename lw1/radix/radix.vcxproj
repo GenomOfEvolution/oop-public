@@ -146,9 +146,6 @@
     <ClCompile Include="radix.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="radix.h" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="test-data\-ZIK0ZJ_From_36_To_Bin.txt" />
     <Text Include="test-data\From_16_To_10_1F.txt" />
     <Text Include="test-data\IntMax_From_10_To_36.txt" />

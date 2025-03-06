@@ -131,6 +131,8 @@ std::string IntToString(int n, int radix)
     return result;
 }
 
+
+// Проверить тест с INT_MIN
 int main(int argc, char* argv[])
 {
     try
