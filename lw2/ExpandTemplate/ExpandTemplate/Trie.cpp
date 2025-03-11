@@ -1,5 +1,6 @@
 #include "Trie.h"
 #include <algorithm> 
+#include <queue>
 
 void Node::Insert(char ch, bool isTerminal)
 {
@@ -35,5 +36,50 @@ void Trie::Insert(const std::string& str)
         bool isTerminal = (i == str.size() - 1);
         current->Insert(ch, isTerminal);
         current = current->FindChild(ch);
+    }
+}
+
+void Trie::BuildSuffixLinks()
+{
+    std::queue<Node*> q;
+    for (Node* child : root->children)
+    {
+        q.push(child);
+        child->suffixLink = root;
+    }
+
+    while (!q.empty())
+    {
+        Node* current = q.front();
+        q.pop();
+
+        for (Node* child : current->children)
+        {
+            q.push(child);
+            Node* temp = current->suffixLink;
+
+            while (temp != nullptr && temp->FindChild(child->value) == nullptr)
+            {
+                temp = temp->suffixLink;
+            }
+
+            if (temp == nullptr)
+            {
+                child->suffixLink = root;
+            }
+            else
+            {
+                child->suffixLink = temp->FindChild(child->value);
+            }
+
+            if (child->suffixLink->isTerminal)
+            {
+                child->outputLink = child->suffixLink;
+            }
+            else
+            {
+                child->outputLink = child->suffixLink->outputLink;
+            }
+        }
     }
 }

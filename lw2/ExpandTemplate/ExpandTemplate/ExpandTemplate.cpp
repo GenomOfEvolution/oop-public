@@ -10,6 +10,8 @@ int main(int argc, char* argv[])
     trie.Insert("hers");
     trie.Insert("she");
 
+    trie.BuildSuffixLinks();
+
     std::cout << "Words added successfully!" << std::endl;
 
     return EXIT_SUCCESS;
