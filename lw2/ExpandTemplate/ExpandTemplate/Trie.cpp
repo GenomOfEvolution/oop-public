@@ -36,6 +36,10 @@ void Trie::Insert(const std::string& str)
         bool isTerminal = (i == str.size() - 1);
         current->Insert(ch, isTerminal);
         current = current->FindChild(ch);
+        if (isTerminal)
+        {
+            current->outputWord = str; // Сохраняем слово в терминальном узле
+        }
     }
 }
 
@@ -45,7 +49,7 @@ void Trie::BuildSuffixLinks()
     for (Node* child : root->children)
     {
         q.push(child);
-        child->suffixLink = root;
+        child->suffixLink = root; // Суффиксная ссылка для детей корня ведет в корень
     }
 
     while (!q.empty())
@@ -58,6 +62,7 @@ void Trie::BuildSuffixLinks()
             q.push(child);
             Node* temp = current->suffixLink;
 
+            // Ищем суффиксную ссылку для child
             while (temp != nullptr && temp->FindChild(child->value) == nullptr)
             {
                 temp = temp->suffixLink;
@@ -72,13 +77,16 @@ void Trie::BuildSuffixLinks()
                 child->suffixLink = temp->FindChild(child->value);
             }
 
-            if (child->suffixLink->isTerminal)
+            // Устанавливаем выходную ссылку
+            if (child->suffixLink != nullptr && child->suffixLink->isTerminal)
             {
+                // Если суффиксная ссылка ведет на терминальный узел, то это выходная ссылка
                 child->outputLink = child->suffixLink;
             }
             else
             {
-                child->outputLink = child->suffixLink->outputLink;
+                // Иначе копируем выходную ссылку из суффиксной ссылки
+                child->outputLink = (child->suffixLink != nullptr) ? child->suffixLink->outputLink : nullptr;
             }
         }
     }
