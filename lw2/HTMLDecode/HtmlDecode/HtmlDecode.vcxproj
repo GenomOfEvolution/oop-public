@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{9f97ae45-3aa3-4cb6-abf1-f674c920c439}</ProjectGuid>
-    <RootNamespace>Dictionary</RootNamespace>
+    <ProjectGuid>{3f4acc27-3107-423f-a985-4e2b5f983399}</ProjectGuid>
+    <RootNamespace>HtmlDecode</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -131,11 +131,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Dictionary.cpp" />
+    <ClCompile Include="HtmlDecode.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Dictionary.h" />
+    <ClInclude Include="HtmlDecode.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
