@@ -132,9 +132,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ExpandTemplate.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Trie.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ExpandTemplate.h" />
     <ClInclude Include="Trie.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
