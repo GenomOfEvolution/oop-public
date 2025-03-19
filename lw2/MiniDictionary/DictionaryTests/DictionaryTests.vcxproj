@@ -135,7 +135,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Dictionary\DictionaryLogic.cpp" />
     <ClCompile Include="DictionaryTests.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dictionary\Dictionary.vcxproj">
+      <Project>{9f97ae45-3aa3-4cb6-abf1-f674c920c439}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Dictionary\DictionaryLogic.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

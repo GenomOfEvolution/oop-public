@@ -1,15 +1,17 @@
-﻿#include "Dictionary.h"
+﻿#include "UI.h"
+#include <iostream>
 
-int main(int argc, char* argv[])
+int main(int argc, char* argv[]) 
 {
     setlocale(LC_ALL, "ru");
 
     std::optional<Args> args = ParseArgs(argc, argv);
-    if (!args)
+    if (!args) 
     {
         return EXIT_FAILURE;
     }
 
-    WorkWithDictionary(*args);
+    RunUI(args->fileName);
+
     return EXIT_SUCCESS;
 }
