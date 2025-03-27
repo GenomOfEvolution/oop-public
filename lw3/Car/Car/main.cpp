@@ -1,17 +1,21 @@
-#include "Car.h"
+#include "CarController.h"
 #include <iostream>
 
 int main()
 {
-	Car car;
-	car.TurnOnEngine();
-	car.SetGear(-1);
-	car.SetSpeed(20);
-	car.SetGear(1);
-	car.SetGear(2);
-	car.SetGear(0);
-	car.SetSpeed(19);
-	car.SetSpeed(25);
+	CarController UI(std::cin, std::cout);
+	std::string line;
+	while (std::getline(std::cin, line))
+	{
+		try
+		{
+			UI.HandleUserInput(line);
+		}
+		catch (const std::exception& e)
+		{
+			std::cout << e.what();
+		}
+	}
 
 	return EXIT_SUCCESS;
 }

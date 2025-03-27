@@ -7,6 +7,7 @@ using SpeedLimit = std::pair<int, int>;
 
 const std::map<int, SpeedLimit> GEAR_SPEED_LIMITS = {
     { -1, { 0, 20 } },
+    { 0, { 0, INT_MAX } },
     { 1, { 0, 30 } },
     { 2, { 20, 50 } },
     { 3, { 30, 60 } },
@@ -64,8 +65,13 @@ bool Car::TurnOffEngine()
         return true;
     }
 
-    std::cout << "Сar must be stopped and in neutral gear\n";
+    throw std::runtime_error("Сar must be stopped and in neutral gear\n");
     return false;
+}
+
+bool IsSpeedInLimit(int curSpeed, int minSpeed, int maxSpeed)
+{
+    return curSpeed >= minSpeed && curSpeed <= maxSpeed;
 }
 
 bool Car::ChangeGearBasedOnSpeed(int gear)
@@ -89,13 +95,13 @@ bool Car::ChangeGearBasedOnSpeed(int gear)
     }
 
     const auto [minSpeed, maxSpeed] = GEAR_SPEED_LIMITS.at(gear);
-    if (m_speed >= minSpeed && m_speed <= maxSpeed)
+    if (IsSpeedInLimit(m_speed, minSpeed, maxSpeed))
     {
         m_gear = static_cast<Gear>(gear);
         return true;
     }
 
-    std::cout << "Unsuitable current speed";
+    throw std::runtime_error("Unsuitable current speed");
     return false;
 }
 
@@ -103,7 +109,7 @@ bool Car::SetGear(int gear)
 {
     if (gear < -1 || gear > 5)
     {
-        std::cout << "Invalid gear\n";
+        throw std::runtime_error("Invalid gear\n");
         return false;
     }
 
@@ -115,7 +121,7 @@ bool Car::SetGear(int gear)
             return true;
         }
 
-        std::cout << "Сannot set gear while engine is off\n";
+        throw std::runtime_error("Cannot set gear while engine is off\n");
         return false;
     }
 
@@ -137,19 +143,18 @@ bool Car::SetSpeed(int speed)
 {
     if (speed < 0)
     {
-        std::cout << "Speed cannot be negative\n";
+        throw std::runtime_error("Speed cannot be negative\n");
         return false;
     }
 
     if (!m_engineIsOn)
     {
-        std::cout << "Cannot set speed while engine is off\n";
+        throw std::runtime_error("Cannot set speed while engine is off\n");
         return false;
     }
 
-    auto [minSpeed, maxSpeed] = (m_gear == Gear::NeutralGear) ? 
-        std::pair{ 0, std::abs(m_speed) } :
-        GEAR_SPEED_LIMITS.at(static_cast<int>(m_gear));
+    // поставить в мапу MAX INT и 0 для нейтралки
+    auto [minSpeed, maxSpeed] = GEAR_SPEED_LIMITS.at(static_cast<int>(m_gear));
   
     if (m_gear == Gear::NeutralGear)
     {
@@ -159,11 +164,12 @@ bool Car::SetSpeed(int speed)
             return true;
         }
 
-        std::cout << "Cannot accelerate on neutral\n";
+        throw std::runtime_error("Cannot accelerate on neutral\n");
         return false;
     }
 
-    if (speed >= minSpeed && speed <= maxSpeed)
+    // вынести в функцию условие
+    if (IsSpeedInLimit(speed, minSpeed, maxSpeed))
     {
         m_speed = speed;
         if (m_gear == Gear::ReverseGear)
@@ -173,6 +179,6 @@ bool Car::SetSpeed(int speed)
         return true;
     }
 
-    std::cout << "Speed is out of gear range\n";
+    throw std::runtime_error("Speed is out of gear range\n");
     return false;
 }
