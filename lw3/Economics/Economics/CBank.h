@@ -7,10 +7,10 @@
 using AccountId = unsigned long long;
 using Money = long long;
 
-class BankOperationError : std::runtime_error
+class BankOperationError : public std::runtime_error
 {
 public:
-	using runtime_error::runtime_error;
+	using std::runtime_error::runtime_error;
 };
 
 // Контролирует все деньги в обороте (как наличные, так и безналичные)
@@ -35,7 +35,7 @@ public:
 private:
 	Money m_cash;
 	std::unordered_map<AccountId, Money> m_clients;
-	AccountId m_nextСlientId = 1;
+	AccountId m_nextСlientId = 0;
 
 	static void ValidateMoney(Money money);
 

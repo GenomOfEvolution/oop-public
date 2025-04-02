@@ -131,11 +131,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actors.cpp" />
+    <ClCompile Include="CActor.cpp" />
     <ClCompile Include="CBank.cpp" />
-    <ClCompile Include="Economics.cpp" />
+    <ClCompile Include="CSimulation.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actors.h" />
+    <ClInclude Include="CActor.h" />
     <ClInclude Include="CBank.h" />
+    <ClInclude Include="CSimulation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -24,9 +24,21 @@
     <ClCompile Include="..\Economics\CBank.cpp">
       <Filter>Dependicies</Filter>
     </ClCompile>
+    <ClCompile Include="..\Economics\Actors.cpp">
+      <Filter>Dependicies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Economics\CActor.cpp">
+      <Filter>Dependicies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Economics\CBank.h">
+      <Filter>Dependicies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Economics\CActor.h">
+      <Filter>Dependicies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Economics\Actors.h">
       <Filter>Dependicies</Filter>
     </ClInclude>
   </ItemGroup>

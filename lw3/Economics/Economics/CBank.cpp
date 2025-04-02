@@ -42,7 +42,7 @@ bool CBank::TrySendMoney(AccountId srcAccountId, AccountId dstAccountId, Money a
 	}
 	catch (const std::exception& e)
 	{
-		std::cout << e.what();
+		std::cout << e.what() << "\n";
 		return false;
 	}
 
@@ -94,7 +94,7 @@ bool CBank::TryWithdrawMoney(AccountId account, Money amount)
 	}
 	catch (const std::exception& e)
 	{
-		std::cout << e.what();
+		std::cout << e.what() << "\n";
 		return false;
 	}
 

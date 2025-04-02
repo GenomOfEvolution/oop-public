@@ -135,6 +135,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Economics\Actors.cpp" />
+    <ClCompile Include="..\Economics\CActor.cpp" />
     <ClCompile Include="..\Economics\CBank.cpp" />
     <ClCompile Include="tests.cpp" />
   </ItemGroup>
@@ -144,6 +146,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Economics\Actors.h" />
+    <ClInclude Include="..\Economics\CActor.h" />
     <ClInclude Include="..\Economics\CBank.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
