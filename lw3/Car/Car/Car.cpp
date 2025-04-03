@@ -3,9 +3,12 @@
 #include <utility>
 #include <map>
 
+// Разнообразить выбрасываемые исключения
+
 using SpeedLimit = std::pair<int, int>;
 
-const std::map<int, SpeedLimit> GEAR_SPEED_LIMITS = {
+const std::map<int, SpeedLimit> GEAR_SPEED_LIMITS = 
+{
     { -1, { 0, 20 } },
     { 0, { 0, INT_MAX } },
     { 1, { 0, 30 } },

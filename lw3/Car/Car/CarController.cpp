@@ -1,6 +1,28 @@
 #include "CarController.h"
 #include <sstream>
 
+int ParseInt(const std::string& str)
+{
+	size_t pos = 0;
+	int value = 0;
+
+	try
+	{
+		value = std::stoi(str, &pos);
+	}
+	catch (...)
+	{
+		throw std::invalid_argument("Invalid command argument\n");
+	}
+
+	if (pos != str.length())
+	{
+		throw std::invalid_argument("Invalid command argument\n");
+	}
+
+	return value;
+}
+
 CarController::CarController(std::istream& input, std::ostream& output)
 	: m_input(input)
 	, m_output(output)
@@ -45,28 +67,6 @@ bool CarController::EngineOn(std::istream& input)
 bool CarController::EngineOff(std::istream& input)
 {
 	return m_car.TurnOffEngine();
-}
-
-int ParseInt(const std::string& str)
-{
-	size_t pos = 0;
-	int value = 0;
-
-	try
-	{
-		value = std::stoi(str, &pos);
-	}
-	catch (...) 
-	{
-		throw std::invalid_argument("Invalid command argument\n");
-	}
-
-	if (pos != str.length()) 
-	{
-		throw std::invalid_argument("Invalid command argument\n");
-	}
-
-	return value;
 }
 
 bool CarController::SetGear(std::istream& input)

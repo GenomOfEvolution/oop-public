@@ -4,6 +4,31 @@
 #include <Car.h>
 
 // check range speed
+using SpeedLimit = std::pair<int, int>;
+
+const std::map<int, SpeedLimit> GEAR_SPEED_LIMITS = {
+	{ -1, { 0, 20 } },
+	{ 0, { 0, INT_MAX } },
+	{ 1, { 0, 30 } },
+	{ 2, { 20, 50 } },
+	{ 3, { 30, 60 } },
+	{ 4, { 40, 90 } },
+	{ 5, { 50, 150 } },
+};
+
+void CheckRangeSpeed(int gear, Car car)
+{
+	const auto [minSpeed, maxSpeed] = GEAR_SPEED_LIMITS.at(gear);
+	int minSpeedExtra = (minSpeed == INT_MIN) ? INT_MIN : minSpeed - 1;
+	int maxSpeedExtra = (maxSpeed == INT_MAX) ? INT_MAX : maxSpeed + 1;
+	
+	CHECK(static_cast<int>(car.GetGear()) == gear);
+	CHECK_NOTHROW(car.SetSpeed(minSpeed));
+	CHECK_NOTHROW(car.SetSpeed(maxSpeed));
+
+	CHECK_THROWS_AS(car.SetSpeed(minSpeedExtra), std::runtime_error);
+	CHECK_THROWS_AS(car.SetSpeed(maxSpeedExtra), std::runtime_error);
+}
 
 TEST_CASE("Uniform shifting across 1-5 gears")
 {
@@ -147,5 +172,21 @@ TEST_CASE("Checking engine turn off twice")
 	CHECK(!car.IsTurnedOn());
 }
 
+TEST_CASE("Check gear to speed min/max values")
+{
+	Car car;
+	car.TurnOnEngine();
+	car.SetGear(1);
+	car.SetSpeed(30);
+
+	for (int i = 2; i < 6; i++)
+	{
+		car.SetGear(i);
+		const auto [minSpeed, maxSpeed] = GEAR_SPEED_LIMITS.at(i);
+		int middleGearSpeed = (int)((minSpeed + maxSpeed) / 2);
+		car.SetSpeed(middleGearSpeed);
+		CheckRangeSpeed(i, car);
+	}
+}
 // включили двигатель 2 раза
 // макс мин скорости на каждой передаче
