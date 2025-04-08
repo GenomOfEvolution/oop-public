@@ -21,9 +21,9 @@ double CCircle::GetPerimeter() const
 std::string CCircle::ToString() const
 {
     return "Circle at " + m_center.ToString() + "\n"
-        + " Radius: " + std::to_string(m_radius) + "\n"
-        + " Fill color: #" + GetColorHex(m_fillColor) + "\n"
-        + " Outline color: #" + GetColorHex(m_outlineColor) + "\n";
+        + "Radius: " + std::to_string(m_radius) + "\n"
+        + "Fill color: #" + GetColorHex(m_fillColor) + "\n"
+        + "Outline color: #" + GetColorHex(m_outlineColor) + "\n";
 }
 
 uint32_t CCircle::GetOutlineColor() const
