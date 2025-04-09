@@ -38,4 +38,5 @@ std::string CLineSegment::ToString() const
 
 void CLineSegment::Draw(ICanvas& canvas)
 {
+    canvas.DrawLine(m_startPoint, m_endPoint, m_color);
 }

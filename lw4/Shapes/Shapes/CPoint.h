@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <string>
+#include <SFML/Graphics.hpp>
 
 class CPoint
 {
@@ -11,6 +12,7 @@ public:
 	[[nodiscard]] double GetDistanceTo(const CPoint& other) const;
 
 	[[nodiscard]] std::string ToString() const;
+	[[nodiscard]] sf::Vector2f ToSFML() const;
 	
 private:
 	double m_x;

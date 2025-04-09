@@ -43,4 +43,5 @@ CPoint CCircle::GetCenter() const
 
 void CCircle::Draw(ICanvas& canvas)
 {
+    canvas.FillCircle(m_center, m_radius, m_fillColor, m_outlineColor);
 }

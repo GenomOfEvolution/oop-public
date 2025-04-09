@@ -53,3 +53,8 @@ double CRectangle::GetHeight() const
 {
 	return m_height;
 }
+
+void CRectangle::Draw(ICanvas& canvas)
+{
+	canvas.FillRect(m_startPos, m_width, m_height, m_fillColor, m_outlineColor);
+}

@@ -3,7 +3,7 @@
 #include "ICanvasDrawable.h"
 #include "CPoint.h"
 
-class CCircle : public ISolidShape, public ICanvasDrawable
+class CCircle : public ISolidShape
 {
 public:
 	CCircle(CPoint center, double radius, uint32_t fillColor, uint32_t outlineColor);

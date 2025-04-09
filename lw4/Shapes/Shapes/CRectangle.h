@@ -4,7 +4,7 @@
 #include "ICanvasDrawable.h"
 #include <string>
 
-class CRectangle : public ISolidShape, public ICanvasDrawable
+class CRectangle : public ISolidShape
 {
 public:
 	CRectangle(CPoint startPos, double width, double height, uint32_t fillColor, uint32_t outlineColor);
@@ -20,6 +20,7 @@ public:
 	[[nodiscard]] double GetWidth() const;
 	[[nodiscard]] double GetHeight() const;
 
+	void Draw(ICanvas& canvas) override;
 private:
 	CPoint m_startPos;
 	double m_width;

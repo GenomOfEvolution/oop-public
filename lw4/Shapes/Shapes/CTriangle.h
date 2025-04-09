@@ -3,7 +3,7 @@
 #include "ISolidShape.h"
 #include "ICanvasDrawable.h"
 
-class CTriangle : public ISolidShape, public ICanvasDrawable
+class CTriangle : public ISolidShape
 {
 public:
 	CTriangle(CPoint vertex1, CPoint vertex2, CPoint vertex3, uint32_t fillColor, uint32_t outlineColor);

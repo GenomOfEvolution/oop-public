@@ -3,7 +3,7 @@
 #include "CPoint.h"
 #include "ICanvasDrawable.h"
 
-class CLineSegment : public IShape, public ICanvasDrawable
+class CLineSegment : public IShape
 {
 public:
 	CLineSegment(CPoint startPoint, CPoint endPoint, uint32_t lineColor);
