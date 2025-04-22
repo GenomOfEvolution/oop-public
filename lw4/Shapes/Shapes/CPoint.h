@@ -2,6 +2,8 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 
+// можно убрать C, а I для интрефейса оставить
+
 class CPoint
 {
 public:
@@ -12,6 +14,7 @@ public:
 	[[nodiscard]] double GetDistanceTo(const CPoint& other) const;
 
 	[[nodiscard]] std::string ToString() const;
+	// абстрагироваться от sfml
 	[[nodiscard]] sf::Vector2f ToSFML() const;
 	
 private:

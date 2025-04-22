@@ -13,10 +13,66 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Dependicies">
+      <UniqueIdentifier>{785f9018-b716-4363-aa3f-3dc80d73f5c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Shapes\CCircle.cpp">
+      <Filter>Dependicies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Shapes\CLineSegment.cpp">
+      <Filter>Dependicies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Shapes\CPoint.cpp">
+      <Filter>Dependicies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Shapes\CRectangle.cpp">
+      <Filter>Dependicies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Shapes\CTriangle.cpp">
+      <Filter>Dependicies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Shapes\IShape.cpp">
+      <Filter>Dependicies</Filter>
+    </ClCompile>
+    <ClCompile Include="CCanvasMock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Shapes\CCircle.h">
+      <Filter>Dependicies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Shapes\CLineSegment.h">
+      <Filter>Dependicies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Shapes\CPoint.h">
+      <Filter>Dependicies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Shapes\CRectangle.h">
+      <Filter>Dependicies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Shapes\CTriangle.h">
+      <Filter>Dependicies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Shapes\ICanvas.h">
+      <Filter>Dependicies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Shapes\IShape.h">
+      <Filter>Dependicies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Shapes\ISolidShape.h">
+      <Filter>Dependicies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Shapes\ICanvasDrawable.h">
+      <Filter>Dependicies</Filter>
+    </ClInclude>
+    <ClInclude Include="CCanvasMock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
