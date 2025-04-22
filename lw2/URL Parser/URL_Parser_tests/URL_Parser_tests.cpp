@@ -63,3 +63,5 @@ TEST_CASE("Lw example")
 	REQUIRE(host == "www.mysite.com");
 	REQUIRE(document == "docs/document1.html?page=30&lang=en#title");
 }
+
+// test case пробел в пути документ, какие символы для пути в документе

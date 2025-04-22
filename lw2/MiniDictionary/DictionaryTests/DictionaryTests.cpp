@@ -14,6 +14,7 @@ TEST_CASE("FindTranslations finds and formats translations correctly")
     REQUIRE(!noTranslations.has_value());           
 }
 
+// еще тесты 
 TEST_CASE("AddTranslation adds translations to both dictionaries") 
 {
     Dictionary ruToEn, enToRu;
