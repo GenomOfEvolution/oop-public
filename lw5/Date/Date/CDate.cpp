@@ -2,6 +2,13 @@
 
 namespace
 {
+	constexpr unsigned MIN_YEAR = 1970;
+	constexpr unsigned MAX_YEAR = 9999;
+	constexpr unsigned LEAP_YEAR_FEB_DAYS = 29;
+	constexpr unsigned NOT_LEAP_YEAR_FEB_DAYS = 28;
+	constexpr unsigned LEAP_YEAR_DAYS = 366;
+	constexpr unsigned REGULAR_YEAR_DAYS = 365;
+
 	bool IsLeapYear(unsigned year)
 	{
 		return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
@@ -12,7 +19,7 @@ namespace
 		switch (month)
 		{
 		case Month::FEBRUARY:
-			return IsLeapYear(year) ? 29 : 28;
+			return IsLeapYear(year) ? LEAP_YEAR_FEB_DAYS : NOT_LEAP_YEAR_FEB_DAYS;
 		case Month::APRIL:
 		case Month::JUNE:
 		case Month::SEPTEMBER:
@@ -26,11 +33,13 @@ namespace
 	void TimestampToDate(unsigned timestamp, unsigned& day, Month& month, unsigned& year)
 	{
 		unsigned timeRemain = timestamp;
-		year = 1970;
+		// тоже в константу
+		year = MIN_YEAR;
 
 		while (true)
 		{
-			unsigned daysInYear = IsLeapYear(year) ? 366 : 365;
+			// цифры в константы
+			unsigned daysInYear = IsLeapYear(year) ? LEAP_YEAR_DAYS : REGULAR_YEAR_DAYS;
 			if (timeRemain < daysInYear)
 			{
 				break;
@@ -59,7 +68,7 @@ namespace
 		return (
 			day >= 1 && day <= GetDaysInMonth(month, year) &&
 			month >= Month::JANUARY && month <= Month::DECEMBER &&
-			year >= 1970 && year <= 9999
+			year >= MIN_YEAR && year <= MAX_YEAR
 		);
 	}
 
@@ -71,9 +80,9 @@ namespace
 		}
 
 		unsigned totalDays = 0;
-		for (unsigned y = 1970; y < year; ++y)
+		for (unsigned y = MIN_YEAR; y < year; ++y)
 		{
-			totalDays += IsLeapYear(y) ? 366 : 365;
+			totalDays += IsLeapYear(y) ? LEAP_YEAR_DAYS : REGULAR_YEAR_DAYS;
 		}
 
 		for (unsigned m = 1; m < static_cast<unsigned>(month); ++m)
