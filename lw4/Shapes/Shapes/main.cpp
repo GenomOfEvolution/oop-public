@@ -6,7 +6,6 @@ const std::string WINDOW_TITLE = "Shapes in SFML";
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 
-
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE);

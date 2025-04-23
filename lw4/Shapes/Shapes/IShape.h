@@ -11,6 +11,7 @@ public:
 	[[nodiscard]] virtual std::string ToString() const = 0;
 	[[nodiscard]] virtual uint32_t GetOutlineColor() const = 0;
 
+	
 	[[nodiscard]] std::string GetColorHex(const uint32_t color) const;
 
 	virtual ~IShape() = default;

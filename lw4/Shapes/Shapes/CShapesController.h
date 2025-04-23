@@ -34,6 +34,7 @@ private:
 	void AddTriangle();
 	void AddLine();
 
+	// unique ptr
 	IShape* GetShapeWithMaxArea() const;
 	IShape* GetShapeWithMinPerimeter() const;
 

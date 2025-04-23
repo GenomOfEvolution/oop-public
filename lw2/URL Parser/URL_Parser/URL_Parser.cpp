@@ -2,9 +2,10 @@
 #include <regex>
 #include <map>
 
+// почитать про регул€рку
 void RegexMatch(std::smatch& matches, const std::string& url)
 {
-    const std::regex urlPattern("^(http[s]?|ftp)://([^:/]+)(?::(\\d+))?(?:/(.*))?$", std::regex::icase);
+    const std::regex urlPattern("^(http[s]?|ftp)://([^:/]+)(?::(\\d+))?(?:/(.[a-z][A-Z]-_))?$", std::regex::icase);
     std::regex_match(url, matches, urlPattern);
 }
 

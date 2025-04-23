@@ -204,6 +204,7 @@ void CShapesController::AddLine()
 	m_shapes.push_back(std::move(line));
 }
 
+// передавать интерфейс ICanvas
 void CShapesController::DrawAllShapes(sf::RenderWindow& window)
 {
 	CCanvas canvas(window);
