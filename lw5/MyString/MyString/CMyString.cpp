@@ -26,9 +26,17 @@ CMyString::CMyString(const char* pString, size_t length)
 	m_capacity = (length == 0) ? 1 : length + 1;
 	m_chars = (length == 0) ? s_emptyString : AllocateMemory(m_capacity);
 
-	if (length > 0) 
+	// отловить std::bad_alloc
+	try
 	{
-		std::uninitialized_copy_n(pString, length, m_chars);
+		if (length > 0)
+		{
+			std::uninitialized_copy_n(pString, length, m_chars);
+		}
+	}
+	catch (const std::bad_alloc& e)
+	{
+		std::cout << "Can`t allocate memory!";
 	}
 
 	m_chars[m_size] = '\0'; 
@@ -120,7 +128,17 @@ CMyString& CMyString::operator=(const CMyString& other)
 		if (m_capacity >= other.m_size && m_chars != s_emptyString)
 		{
 			std::destroy_n(m_chars, m_size + 1);
-			std::uninitialized_copy_n(other.m_chars, m_size + 1, m_chars);
+
+			// тоже exception
+			try
+			{
+				std::uninitialized_copy_n(other.m_chars, m_size + 1, m_chars);
+			}
+			catch (const std::bad_alloc& e)
+			{
+				std::cout << "Can`t allocte memory!";
+			}
+			
 			m_size = other.m_size;
 		}
 		else
@@ -138,7 +156,6 @@ CMyString& CMyString::operator=(CMyString&& other) noexcept
 {
 	if (this != &other) 
 	{
-		
 		if (m_chars != s_emptyString)
 		{
 			ReleaseMemory(m_chars);
@@ -176,6 +193,7 @@ CMyString CMyString::operator+(const char* other) const
 	return *this + CMyString(other);
 }
 
+// опционально сделать через оператор +
 CMyString& CMyString::operator+=(const CMyString& other)
 {
 	if (other.m_size + m_size >= m_capacity)
@@ -224,6 +242,7 @@ std::ostream& operator<<(std::ostream& os, const CMyString& str)
 	return os << str.m_chars;
 }
 
+// через get, выставить failbit если не удалось
 std::istream& operator>>(std::istream& is, CMyString& str)
 {
 	std::string word;
