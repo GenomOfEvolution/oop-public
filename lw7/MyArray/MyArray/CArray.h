@@ -72,10 +72,10 @@ CArray<T>::CArray(const CArray& other)
 	, m_size(other.m_size)
 {
 	T* temp = nullptr;
-	if (other.m_start != nullptr)
+	if (other.m_data != nullptr)
 	{
 		temp = new T[m_size];
-		std::copy(other.m_start, other.m_start + m_size, temp);
+		std::copy(other.m_data, other.m_data + m_size, temp);
 	}
 	m_data = temp;
 }
