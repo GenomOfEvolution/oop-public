@@ -20,6 +20,9 @@ public:
 	CArray<T>& operator=(const CArray& other);
 	CArray<T>& operator=(CArray&& other) noexcept;
 
+	T& operator[](size_t index);
+	T const& operator[](size_t index) const;
+
 	// Iterators
 	using Iterator = T*;
 	using ConstIterator = const T*;
@@ -176,6 +179,22 @@ CArray<T>& CArray<T>::operator=(CArray&& other) noexcept
 		other.m_capacity = 0;
 	}
 	return *this;
+}
+
+template <typename T>
+T& CArray<T>::operator[](size_t index)
+{
+	if (index >= m_size)
+	{
+		throw std::out_of_range("Index out of range");
+	}
+	return m_data[index];
+}
+
+template <typename T>
+T const& CArray<T>::operator[](size_t index) const
+{
+	return m_data[index];
 }
 
 template<typename T>
