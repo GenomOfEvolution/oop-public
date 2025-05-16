@@ -101,3 +101,5 @@ TEST_CASE("Empty URL")
 {
 	CHECK_THROWS_AS(CHttpUrl(""), CUrlParsingError);
 }
+
+//invalid document or domain

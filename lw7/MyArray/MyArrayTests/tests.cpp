@@ -63,6 +63,7 @@ TEMPLATE_TEST_CASE("CArray functionality tests", "[CArray][template]", std::stri
 
         CArray<TestType> arr2(arr1);
         REQUIRE(arr2.Size() == arr1.Size());
+        // проверить что массивы одинаковые
     }
 
     SECTION("Move constructor") 
@@ -118,5 +119,7 @@ TEMPLATE_TEST_CASE("CArray functionality tests", "[CArray][template]", std::stri
 
         auto rit = arr.rbegin();
         REQUIRE(rit != arr.rend());
+
+        // range based for end++ begin-- *end
     }
 }

@@ -52,6 +52,7 @@ private:
 	size_t m_capacity = 0;
 };
 
+// сделать дефолтным
 template <typename T>
 CArray<T>::CArray()
 	: m_capacity(0)
@@ -71,6 +72,7 @@ CArray<T>::CArray(const CArray& other)
 	: m_capacity(other.m_capacity)
 	, m_size(other.m_size)
 {
+	// try catch для bad_alloc
 	T* temp = nullptr;
 	if (other.m_data != nullptr)
 	{
@@ -86,6 +88,7 @@ CArray<T>::CArray(CArray&& other) noexcept
 	, m_capacity(other.m_capacity)
 	, m_size(other.m_size)
 {
+	// Swap
 	other.m_size = 0;
 	other.m_capacity = 0;
 	other.m_data = nullptr;
@@ -141,6 +144,7 @@ void CArray<T>::Resize(size_t newSize)
 template<typename T>
 void CArray<T>::Clear() noexcept
 {
+	//std destroy_n
 	for (size_t i = 0; i < m_size; ++i)
 	{
 		m_data[i].~T();
@@ -170,6 +174,7 @@ CArray<T>& CArray<T>::operator=(CArray&& other) noexcept
 	{
 		Clear();
 
+		// Swap or exchange
 		m_data = other.m_data;
 		m_size = other.m_size;
 		m_capacity = other.m_capacity;
@@ -194,6 +199,7 @@ T& CArray<T>::operator[](size_t index)
 template <typename T>
 T const& CArray<T>::operator[](size_t index) const
 {
+	// this->[index]
 	return m_data[index];
 }
 
@@ -228,7 +234,6 @@ template <typename T>
 template <typename U>
 CArray<T>& CArray<T>::operator=(const CArray<U>& other)
 {
-
 	CArray temp;
 	temp.Resize(other.Size());  
 

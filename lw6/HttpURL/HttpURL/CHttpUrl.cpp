@@ -132,6 +132,7 @@ CHttpUrl::CHttpUrl(std::string const& domain, std::string const& document, Proto
 
 CHttpUrl::CHttpUrl(std::string const& domain, std::string const& document, Protocol protocol, unsigned short port)
 {
+	// вызов другого конструктора
 	try
 	{
 		m_domain = ParseDomain(domain);
