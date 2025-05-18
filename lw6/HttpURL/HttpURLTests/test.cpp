@@ -102,4 +102,20 @@ TEST_CASE("Empty URL")
 	CHECK_THROWS_AS(CHttpUrl(""), CUrlParsingError);
 }
 
-//invalid document or domain
+// TODO: invalid document or domain
+TEST_CASE("Invalid domain")
+{
+	CHECK_THROWS_AS(CHttpUrl("https://github/oop"), CUrlParsingError);
+}
+
+TEST_CASE("Invalid document symbol")
+{
+	CHECK_THROWS_AS(CHttpUrl("https://github.com/oop   _6"), CUrlParsingError);
+}
+
+TEST_CASE("Constructor with protocol (auto port)")
+{
+	CHECK_THROWS_AS(CHttpUrl("", "/", Protocol::HTTP), std::invalid_argument);
+	CHECK_THROWS_AS(CHttpUrl("invalid_domain", "/", Protocol::HTTPS), std::invalid_argument);
+	CHECK_THROWS_AS(CHttpUrl("example.com", "no_leading_slash", Protocol::HTTP), std::invalid_argument);
+}

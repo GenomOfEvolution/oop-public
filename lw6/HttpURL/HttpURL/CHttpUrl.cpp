@@ -37,7 +37,14 @@ int ParseInt(const std::string& str)
 
 void RegexMatch(std::smatch& matches, const std::string& url)
 {
-	const std::regex urlPattern("^(http[s]?)://([^:/]+)(?::(\\d+))?(?:/(.*))?$", std::regex::icase);
+	const std::regex urlPattern(
+		R"(^(http[s]?)://)"                     
+		R"(([a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,}))"  
+		R"((?::(\d+))?)"                        
+		R"((/[-a-zA-Z0-9._~!$&'()*+,;=:@/%]*)?)",                   
+		std::regex::icase
+	);
+
 	if (!std::regex_match(url, matches, urlPattern))
 	{
 		throw CUrlParsingError("Failed to parse URL");
@@ -74,10 +81,12 @@ unsigned short ParsePort(const Protocol& protocol, const std::string& portStr)
 
 std::string ParseDomain(const std::string& domain)
 {
-	if (domain.empty())
+	const std::regex domainRegex(R"(^([a-z0-9-]+\.)*[a-z0-9-]+\.[a-z]{2,}$)", std::regex::icase);
+	if (!std::regex_match(domain, domainRegex))
 	{
-		throw CUrlParsingError("Invalid domain");
+		throw CUrlParsingError("Invalid domain format: " + domain);
 	}
+
 	return domain;
 }
 
@@ -98,6 +107,17 @@ Protocol ParseProtocol(const std::string& protocol)
 	throw CUrlParsingError("Invalid protocol");
 }
 
+std::string ParseDocument(const std::string& document)
+{
+	const std::regex documentRegex(R"((/[-a-zA-Z0-9._~!$&'()*+,;=:@/%]*)?)", std::regex::icase);
+	if (!std::regex_match(document, documentRegex))
+	{
+		throw CUrlParsingError("Invalid document format: " + document);
+	}
+
+	return document;
+}
+
 CHttpUrl::CHttpUrl(std::string const& url)
 {
 	std::smatch matches;
@@ -105,49 +125,39 @@ CHttpUrl::CHttpUrl(std::string const& url)
 
 	m_protocol = ParseProtocol(matches[1]);
 	m_domain = ParseDomain(matches[2]);
-	m_port = ParsePort(m_protocol, matches[3]);
+	m_port = ParsePort(m_protocol, matches[4]);
 
-	m_document = "/";
-	m_document += matches[4].matched ? matches[4] : std::string();
+	m_document = matches[5].matched ? matches[5].str() : "/";
 
 	m_url = FormUrl();
 }
 
+// TODO: reuse constructor
 CHttpUrl::CHttpUrl(std::string const& domain, std::string const& document, Protocol protocol)
+	: CHttpUrl(domain, document, protocol,
+		(protocol == Protocol::HTTP) ? DEFAULT_HTTP_PORT : DEFAULT_HTTPS_PORT)
 {
-	try
-	{
-		m_domain = ParseDomain(domain);
-	}
-	catch (const std::exception& e)
-	{
-		throw std::invalid_argument(e.what());
-	}
-	
-	m_document = document;
-	m_protocol = protocol;
-	m_port = (protocol == Protocol::HTTP) ? DEFAULT_HTTP_PORT : DEFAULT_HTTPS_PORT;
-	m_url = FormUrl();
 }
 
-CHttpUrl::CHttpUrl(std::string const& domain, std::string const& document, Protocol protocol, unsigned short port)
+CHttpUrl::CHttpUrl(std::string const& domain, std::string const& document,
+	Protocol protocol, unsigned short port)
 {
-	// вызов другого конструктора
 	try
 	{
 		m_domain = ParseDomain(domain);
+		m_document = ParseDocument(document);
+
+		if (port < MIN_PORT || port > MAX_PORT)
+		{
+			throw std::invalid_argument("Port must be between 1 and 65535");
+		}
 	}
 	catch (const std::exception& e)
 	{
 		throw std::invalid_argument(e.what());
 	}
 
-	m_document = document;
 	m_protocol = protocol;
-	if (port < MIN_PORT)
-	{
-		throw std::invalid_argument("Port must be greater between 0 and 65535");
-	}
 	m_port = port;
 	m_url = FormUrl();
 }
