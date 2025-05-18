@@ -4,7 +4,7 @@ template <typename T>
 class CArray
 {
 public:
-	CArray();
+	CArray() = default; // TODO: сделать дефолтным
 	~CArray() noexcept;
 
 	CArray(const CArray& other);
@@ -52,15 +52,6 @@ private:
 	size_t m_capacity = 0;
 };
 
-// сделать дефолтным
-template <typename T>
-CArray<T>::CArray()
-	: m_capacity(0)
-	, m_size(0)
-	, m_data(nullptr)
-{
-}
-
 template <typename T>
 CArray<T>::~CArray() noexcept
 {
@@ -72,23 +63,29 @@ CArray<T>::CArray(const CArray& other)
 	: m_capacity(other.m_capacity)
 	, m_size(other.m_size)
 {
-	// try catch для bad_alloc
 	T* temp = nullptr;
-	if (other.m_data != nullptr)
+	try // TODO: try catch для bad_alloc
 	{
-		temp = new T[m_size];
-		std::copy(other.m_data, other.m_data + m_size, temp);
+		if (other.m_data != nullptr)
+		{
+			temp = new T[m_size];
+			std::copy(other.m_data, other.m_data + m_size, temp);
+		}
+		m_data = temp;
 	}
-	m_data = temp;
+	catch (const std::exception&)
+	{
+		delete[] temp;
+		Clear();
+		throw;
+	}
 }
 
 template<typename T>
 CArray<T>::CArray(CArray&& other) noexcept
-	: m_data(other.m_data)
-	, m_capacity(other.m_capacity)
-	, m_size(other.m_size)
 {
-	// Swap
+	Swap(other); // TODO: Swap
+	
 	other.m_size = 0;
 	other.m_capacity = 0;
 	other.m_data = nullptr;
@@ -144,12 +141,7 @@ void CArray<T>::Resize(size_t newSize)
 template<typename T>
 void CArray<T>::Clear() noexcept
 {
-	//std destroy_n
-	for (size_t i = 0; i < m_size; ++i)
-	{
-		m_data[i].~T();
-	}
-	delete[] m_data;
+	std::destroy_n(m_data, m_size); // TODO: std destroy_n
 
 	m_data = nullptr;
 	m_size = 0;
@@ -173,11 +165,7 @@ CArray<T>& CArray<T>::operator=(CArray&& other) noexcept
 	if (this != &other)
 	{
 		Clear();
-
-		// Swap or exchange
-		m_data = other.m_data;
-		m_size = other.m_size;
-		m_capacity = other.m_capacity;
+		Swap(other); // TODO: Swap or exchange
 
 		other.m_data = nullptr;
 		other.m_size = 0;
@@ -199,8 +187,7 @@ T& CArray<T>::operator[](size_t index)
 template <typename T>
 T const& CArray<T>::operator[](size_t index) const
 {
-	// this->[index]
-	return m_data[index];
+	return const_cast<CArray<T>*>(this)->operator[](index); // TODO: this->[index]
 }
 
 template<typename T>

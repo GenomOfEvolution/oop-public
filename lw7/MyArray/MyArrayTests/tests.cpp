@@ -63,7 +63,11 @@ TEMPLATE_TEST_CASE("CArray functionality tests", "[CArray][template]", std::stri
 
         CArray<TestType> arr2(arr1);
         REQUIRE(arr2.Size() == arr1.Size());
-        // проверить что массивы одинаковые
+        // TODO: проверить что массивы одинаковые
+        for (size_t i = 0; i < arr1.Size(); ++i)
+        {
+            CHECK(arr1[i] == arr2[i]);
+        }
     }
 
     SECTION("Move constructor") 
@@ -106,7 +110,7 @@ TEMPLATE_TEST_CASE("CArray functionality tests", "[CArray][template]", std::stri
         REQUIRE(arr1.Size() == 0);
     }
 
-    SECTION("Iterator functionality") 
+    SECTION("Iterator functionality")
     {
         CArray<TestType> arr;
         TestType val1{};
@@ -114,12 +118,43 @@ TEMPLATE_TEST_CASE("CArray functionality tests", "[CArray][template]", std::stri
         arr.Push(val1);
         arr.Push(val2);
 
+        // TODO: range based for end++ begin-- *end
         auto it = arr.begin();
         REQUIRE(it != arr.end());
+        REQUIRE(*it == val1);
+        ++it;
+        REQUIRE(*it == val2);
+        ++it;
+        REQUIRE(it == arr.end());
 
         auto rit = arr.rbegin();
         REQUIRE(rit != arr.rend());
+        REQUIRE(*rit == val2);
+        ++rit;
+        REQUIRE(*rit == val1);
+        ++rit;
+        REQUIRE(rit == arr.rend());
 
-        // range based for end++ begin-- *end
+        size_t count = 0;
+        for (const auto& item : arr) 
+        {
+            ++count;
+            REQUIRE((item == val1 || item == val2));
+        }
+        REQUIRE(count == 2);
+
+        auto end_it = arr.end();
+        --end_it;
+        REQUIRE(*end_it == val2);
+        --end_it;
+        REQUIRE(*end_it == val1);
+        REQUIRE(end_it == arr.begin());
+
+        REQUIRE(arr.end() - arr.begin() == 2);
+        REQUIRE(arr.begin() + 2 == arr.end());
+        REQUIRE(arr.end() - 2 == arr.begin());
+
+        REQUIRE(arr.begin()[0] == val1);
+        REQUIRE(arr.begin()[1] == val2);
     }
 }
