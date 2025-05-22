@@ -6,7 +6,6 @@
 class CStringList
 {
 public:
-    // Основной интерфейс
     CStringList() = default;
     CStringList(const CStringList& other);
     CStringList(CStringList&& other) noexcept;
@@ -133,7 +132,7 @@ public:
     Iterator end() noexcept { return Iterator(nullptr); }
 
     ConstIterator begin() const noexcept { return ConstIterator(m_head.get()); }
-    ConstIterator end() const noexcept { return ConstIterator(nullptr); }
+    ConstIterator end() const noexcept { return ConstIterator(nullptr); }           // TODO: проверить end--
 
     ConstIterator cbegin() const noexcept { return begin(); }
     ConstIterator cend() const noexcept { return end(); }

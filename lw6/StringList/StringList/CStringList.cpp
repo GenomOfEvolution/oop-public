@@ -123,11 +123,11 @@ void CStringList::Insert(ConstIterator pos, const std::string& value)
         return;
     }
 
-    Node* nodeAtPos = const_cast<Node*>(pos.m_node);
+    /*Node* nodeAtPos = const_cast<Node*>(pos.m_node);
     auto newNode = std::make_unique<Node>(value, std::move(nodeAtPos->prev->next), nodeAtPos->prev);
+    newNode->prev->next = std::move(nodeAtPos->prev);
     nodeAtPos->prev = newNode.get();
-    newNode->prev->next = std::move(newNode);
-    ++m_size;
+    ++m_size;*/
 }
 
 void CStringList::Delete(ConstIterator pos) 
